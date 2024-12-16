@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+             xmlns:tns="http://localhost:3001/soap"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             name="AvailabilityService"
+             targetNamespace="http://localhost:3001/soap">
+
+  <message name="checkAvailabilityRequest">
+    <part name="startDate" type="xsd:string"/>
+    <part name="endDate" type="xsd:string"/>
+    <part name="roomType" type="xsd:string"/>
+  </message>
+
+  <message name="checkAvailabilityResponse">
+    <part name="availability" type="xsd:string"/>
+  </message>
+
+  <portType name="AvailabilityPortType">
+    <operation name="checkAvailability">
+      <input message="tns:checkAvailabilityRequest"/>
+      <output message="tns:checkAvailabilityResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="AvailabilityBinding" type="tns:AvailabilityPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="checkAvailability">
+      <soap:operation soapAction="checkAvailability"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:3001/soap"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:3001/soap"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="AvailabilityService">
+    <port name="AvailabilityPort" binding="tns:AvailabilityBinding">
+      <soap:address location="http://localhost:3001/soap"/>
+    </port>
+  </service>
+
+</definitions>
